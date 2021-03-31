@@ -101,10 +101,10 @@ public class MainActivity extends AppCompatActivity {
     public void onDiv(View view) {
         try {
             compute(Calculator.Operator.DIV);
-        } catch (IllegalArgumentException iae) {
-            Log.e(TAG, "IllegalArgumentException", iae);
-            mResultTextView.setText(getString(R.string.computationError));
-        }
+       } catch (IllegalArgumentException iae) {
+          Log.e(TAG, "IllegalArgumentException", iae);
+          mResultTextView.setText(getString(R.string.computationError) + "IllegalArgumentException 0 on DIV " + iae.getMessage());
+       }
     }
 
     /**
@@ -138,7 +138,7 @@ compute()Метод вызывает private метод getOperand()(котор�
             operandTwo = getOperand(mOperandTwoEditText);
         } catch (NumberFormatException nfe) {
             Log.e(TAG, "NumberFormatException", nfe);
-            mResultTextView.setText(getString(R.string.computationError));
+            mResultTextView.setText(getString(R.string.computationError)+ " NumberFormatException" );
             return;
         }
         // Объявляется result как строка, что бы заполнить, а потом вывести.
@@ -170,7 +170,7 @@ compute()Метод вызывает private метод getOperand()(котор�
                         mCalculator.mul(operandOne, operandTwo));
                 break; // выйти из switch вниз дальше, т.е. на setText
             default:
-                result = getString(R.string.computationError);
+                result = getString(R.string.computationError) + "Default";
                 break; // выйти из switch вниз дальше, т.е. на setText
         }
         // когда вышли из switch сюда с заполненным текстовым result

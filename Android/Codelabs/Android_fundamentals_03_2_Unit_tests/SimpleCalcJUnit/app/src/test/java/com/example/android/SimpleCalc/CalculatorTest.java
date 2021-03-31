@@ -27,6 +27,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.IsCloseTo.closeTo;
+import static org.junit.Assert.assertTrue;
 //import static org.junit.Assert.assertThat;
 
 /**
@@ -166,24 +167,23 @@ public class CalculatorTest {
         double resultDiv = mCalculator.div(32d,0);
         assertThat(resultDiv, is(equalTo(Double.POSITIVE_INFINITY)));
     }
+    // первое решение задачки 5.1
 
-
-    /*@Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void divByZeroThrowsBarancev() {
         double resultDiv = mCalculator.div(32d,0);
-        //assertThat(resultDiv, is(equalTo(Double.POSITIVE_INFINITY)));
-    }*/
-
-    /*@Test
-    public void testFooThrowsIndexOutOfBoundsException() {
+    }
+    // второе решение задачки 5.1
+    @Test
+    public void divByZeroThrowsIllegalArgumentException() {
         boolean thrown = false;
 
         try {
-            foo.doStuff();
-        } catch (IndexOutOfBoundsException e) {
+            double resultDiv = mCalculator.div(32d,0);
+        } catch (IllegalArgumentException e) {
             thrown = true;
         }
 
         assertTrue(thrown);
-    }*/
+    }
 }

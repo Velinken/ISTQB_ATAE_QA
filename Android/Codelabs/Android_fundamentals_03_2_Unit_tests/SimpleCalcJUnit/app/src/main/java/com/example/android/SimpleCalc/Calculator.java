@@ -16,6 +16,8 @@
 
 package com.example.android.SimpleCalc;
 
+import static java.lang.Math.abs;
+
 /**
  * Utility class for SimpleCalc to perform the actual calculations.
  * Служебный класс SimpleCalc для выполнения фактических вычислений.
@@ -49,8 +51,11 @@ public class Calculator {
      * метод (функция) класса Calculator принимает два плавающих числа и возвращает то же плавающее число
      */
     public double div(double firstOperand, double secondOperand) {
+        // при передаче второго аргумента 0 возбуждает исключение:
+        if (abs(secondOperand) < 0.00000001d) throw new IllegalArgumentException(" Division by 0");
         return firstOperand / secondOperand;
     }
+
 
     /**
      * Multiply operation
