@@ -63,6 +63,12 @@ public class CalculatorTest {
     }
 
     @Test
+    public void addTwoNumbersNullMy() {
+        double resultAdd = mCalculator.add(0d, 0d);
+        assertThat(resultAdd, is(equalTo(0d)));
+    }
+
+    @Test
     public void addTwoNumbersFloatsMy() {
         double resultAdd = mCalculator.add(1.111f, 1.111d);
         //assertThat(resultAdd, is(equalTo(2.222d))); // Этот дает ошибку, т.к. много знаков еще сзади. Так сравнивать нельзя
