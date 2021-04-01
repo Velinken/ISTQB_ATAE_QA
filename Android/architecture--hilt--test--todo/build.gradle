@@ -47,10 +47,10 @@ allprojects {
 ext {
     // Sdk and tools
     // Bumping minSdk to 21 to avoid adding multidex just for androidTests
-    compileSdkVersion = 30
+    compileSdkVersion = 30 //'android-s'
     minSdkVersion = 21
     targetSdkVersion = 30
-    buildToolsVersion = "31.0.0 rc2"
+    buildToolsVersion = '30.0.3' // "31.0.0 rc2"
 
     // App dependencies
     androidXVersion = '1.0.0'
