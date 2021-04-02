@@ -15,7 +15,7 @@
  */
 
 package com.example.android.architecture.blueprints.todoapp
-/*
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -75,4 +75,3 @@ class MainCoroutineRule(val dispatcher: TestCoroutineDispatcher = TestCoroutineD
         Dispatchers.resetMain()
     }
 }
-*/
