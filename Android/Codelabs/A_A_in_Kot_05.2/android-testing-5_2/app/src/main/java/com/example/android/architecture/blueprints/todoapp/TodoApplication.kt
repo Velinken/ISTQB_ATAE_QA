@@ -17,6 +17,7 @@
 package com.example.android.architecture.blueprints.todoapp
 
 import android.app.Application
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
@@ -25,8 +26,15 @@ import timber.log.Timber.DebugTree
  * used to simplify the sample. Consider a Dependency Injection framework.
  *
  * Also, sets up Timber in the DEBUG BuildConfig. Read Timber's documentation for production setups.
+ *
+ * Класс апликации вызывается манифестом самым первым и только один раз
  */
 class TodoApplication : Application() {
+
+    // Запросить ServiceLocator создать один экземпляр TasksRepository и вернуть нам ссылку на него,
+    // которой мы будем пользоваться дальше
+    val taskRepository: TasksRepository
+        get() = ServiceLocator.provideTasksRepository(this)
 
     override fun onCreate() {
         super.onCreate()

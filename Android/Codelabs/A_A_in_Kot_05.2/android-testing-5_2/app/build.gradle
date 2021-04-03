@@ -65,6 +65,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$androidXLegacySupport"
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
 
     // Architecture Components
     implementation "androidx.room:room-runtime:$roomVersion"
@@ -77,6 +78,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    implementation "androidx.test:core:$androidXTestCoreVersion"
 
     // Dependencies for local unit tests
     testImplementation "junit:junit:$junitVersion"
@@ -94,6 +96,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion"
+    androidTestImplementation "junit:junit:$junitVersion"
 
     // Kotlin -- kotlin-stdlib начина с котлин 1,4 подключается по умолчанию
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"

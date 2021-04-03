@@ -42,6 +42,7 @@ class AddEditTaskFragment : Fragment() {
 
     private val viewModel by viewModels<AddEditTaskViewModel>()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
