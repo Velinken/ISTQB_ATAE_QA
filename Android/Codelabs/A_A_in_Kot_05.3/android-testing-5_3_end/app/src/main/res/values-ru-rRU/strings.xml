@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Todo</string>
+    <string name="add_task">Новая Задача</string>
+    <string name="edit_task">Задача Редактирования</string>
+    <string name="task_marked_complete">Задание помечено как выполненное</string>
+    <string name="task_marked_active">Задача помечена как активная</string>
+    <string name="loading_tasks_error">Ошибка при загрузке задач</string>
+    <string name="completed_tasks_cleared">Выполненные задачи очищены</string>
+    <string name="menu_filter">Фильтр</string>
+    <string name="menu_clear">Почистить</string>
+    <string name="menu_delete_task">Удалить задачу</string>
+    <string name="title_hint">Название</string>
+    <string name="description_hint">Введите свою задачу здесь.</string>
+    <string name="empty_task_message">Задачи не могут быть пустыми</string>
+    <string name="successfully_saved_task_message">Задача сохранить</string>
+    <string name="list_title">Список Задач</string>
+    <string name="statistics_title">Статистика</string>
+    <string name="statistics_no_tasks">У тебя нет никаких заданий.</string>
+    <string name="statistics_error">Статистика загрузки ошибок.</string>
+    <string name="no_data">Нет данных</string>
+    <string name="loading">Загрузка</string>
+    <string name="nav_all">Все</string>
+    <string name="nav_active">Активный</string>
+    <string name="nav_completed">Завершено</string>
+    <string name="label_all">Все Задачи</string>
+    <string name="label_active">Активные Задачи</string>
+    <string name="label_completed">Выполненные Задания</string>
+    <string name="no_tasks_all">У вас нет никаких заданий!</string>
+    <string name="no_tasks_active">У вас нет активных заданий!</string>
+    <string name="no_tasks_completed">У вас нет выполненных заданий!</string>
+    <string name="refresh">Обновить</string>
+    <string name="successfully_deleted_task_message">Задача была удалена</string>
+    <string name="successfully_added_task_message">Добавлено задание</string>
+    <string name="tasks_header_image_content_description">Изображение заголовка задачи</string>
+    <string name="no_tasks_image_content_description">Изображение без задач</string>
+
+</resources>
