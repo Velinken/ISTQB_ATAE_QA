@@ -41,3 +41,6 @@ class TodoApplication : Application() {
         if (BuildConfig.DEBUG) Timber.plant(DebugTree())
     }
 }
+/**
+ * Все на месте
+ */
