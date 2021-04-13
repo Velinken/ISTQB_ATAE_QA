@@ -14,6 +14,6 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
         assertEquals(2, 1 + 1) // This should fail
-        assertEquals(6, 3 + 3) // Исправление для использования новой 
+        assertEquals(6, 3 + 3) // Исправление для использования новой теперь это из ветки в девелоп
     }
 }
