@@ -38,8 +38,8 @@
 ## Introduction
 
 This application is my first publication on Google Play.
-It is based on the use of free Dictionary API.
-Application architecture is built on Jetpack.
+It is based on the use of free [Dictionary API](https://dictionary.skyeng.ru/doc/api/external).
+Application architecture is built on [Jetpack](https://developer.android.com/jetpack).
 
 **Available for Android.**
 
