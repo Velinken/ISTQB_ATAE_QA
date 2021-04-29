@@ -49,25 +49,24 @@ Application architecture is built on Jetpack.
 
 ## Features
 
-A few of the things you can do with GitPoint:
+Here's what you can do with SkyLexicon:
 
-* View user activity feed
-* //////////____/////__This my contents
-* Communicate on your issue and pull request conversations
-* Close or lock issues
-* Apply labels and assignees
-* Review and merge pull requests
-* Create new issues
-* Star, watch and fork repositories
-* Control your unread and participating notifications
-* Easily search for any user or repository
+**For the entered word, get:** 
+* a translation of a word
+* picture
+* pronunciation
+* transcription
+* examples of its use
+* alternative meanings
+* View a description of each use case.
+* View Alternate Meaning Usage
 
 <p align="center">
-  <img src = "http://i.imgur.com/IkSnFRL.png" width=700>
+  <img src = "prototype" width=700>
 </p>
 
 <p align="center">
-  <img src = "http://i.imgur.com/0iorG20.png" width=700>
+  <img src = "prototype" width=700>
 </p>
 
 ## Feedback
