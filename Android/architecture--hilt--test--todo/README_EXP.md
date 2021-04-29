@@ -1,7 +1,7 @@
 <h1 align="center"> GitPoint </h1> <br>
 <p align="center">
   <a href="https://gitpoint.co/">
-    <img alt="GitPoint" title="GitPoint" src="http://i.imgur.com/VShxJHs.png" width="450">
+    <img alt="GitPoint" title="GitPoint_EXP" src="http://i.imgur.com/VShxJHs.png" width="450">
   </a>
 </p>
 
@@ -21,7 +21,8 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## Table of Contents
+<!-- ## Table of Contents-->
+## This my Contents
 
 - [Introduction](#introduction)
 - [Features](#features)
@@ -56,6 +57,7 @@ View repository and user information, control your notifications and even manage
 A few of the things you can do with GitPoint:
 
 * View user activity feed
+* //////////____/////__This my contents
 * Communicate on your issue and pull request conversations
 * Close or lock issues
 * Apply labels and assignees
