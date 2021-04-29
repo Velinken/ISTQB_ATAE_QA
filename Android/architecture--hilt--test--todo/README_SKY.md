@@ -76,7 +76,7 @@ Feature requests are always welcome.
 
 ## Contributors
 
-This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification and is brought to you by these [awesome contributors](./CONTRIBUTORS.md).
+This project follows the [asdzendo](https://github.com/Dzendo) 
 
 ## Build Process
 
