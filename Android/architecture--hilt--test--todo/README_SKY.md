@@ -71,9 +71,8 @@ Here's what you can do with SkyLexicon:
 
 ## Feedback
 
-Feel free to send us feedback on [Twitter](https://twitter.com/gitpointapp) or [file an issue](https://github.com/gitpoint/git-point/issues/new). Feature requests are always welcome. If you wish to contribute, please take a quick look at the [guidelines](./CONTRIBUTING.md)!
-
-If there's anything you'd like to chat about, please feel free to join our [Gitter chat](https://gitter.im/git-point)!
+Feel free to send us feedback on [Twitter](https://twitter.com/LexiconSky) or [file an issue](https://github.com/Dzendo/SkyLexicon/issues/new). 
+Feature requests are always welcome. 
 
 ## Contributors
 
