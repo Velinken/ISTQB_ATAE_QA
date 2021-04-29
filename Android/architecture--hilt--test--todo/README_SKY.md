@@ -37,8 +37,9 @@
 
 ## Introduction
 
-This application is for the first publication in Google Play
-It is based on the use of free Dictionary API
+This application is my first publication on Google Play.
+It is based on the use of free Dictionary API.
+Application architecture is built on Jetpack.
 
 **Available for Android.**
 
