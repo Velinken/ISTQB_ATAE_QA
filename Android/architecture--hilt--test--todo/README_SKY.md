@@ -38,15 +38,13 @@
 ## Introduction
 
 This application is my first publication on Google Play.
-
 It is based on the use of free Dictionary API.
-
 Application architecture is built on Jetpack.
 
 **Available for Android.**
 
 <p align="center">
-  <img src = "http://i.imgur.com/HowF6aM.png" width=350>
+  <img src = "prototype" width=350>
 </p>
 
 ## Features
