@@ -1,0 +1,455 @@
+  14  app/build.gradle
+@@ -74,6 +74,17 @@ android {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    packagingOptions {
+        // Multiple dependency bring these files in. Exclude them to enable
+        // our test APK to build (has no effect on our AARs)
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
+    }
+}
+
+hilt {
+    enableTransformForLocalTests = true
+}
+
+/*
+@@ -108,13 +119,10 @@ dependencies {
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltAndroidXVersion"
+    kapt "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
+
+    // Hilt testing
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    kaptAndroidTest "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
+
+    // Dependencies for local unit tests
+    testImplementation "junit:junit:$junitVersion"
+  5  ...androidTest/java/com/example/android/architecture/blueprints/todoapp/AppNavigationTest.kt
+@@ -37,15 +37,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
+import com.example.android.architecture.blueprints.todoapp.data.Task
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
+import com.example.android.architecture.blueprints.todoapp.di.TasksRepositoryModule
+import com.example.android.architecture.blueprints.todoapp.tasks.TasksActivity
+import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource
+import com.example.android.architecture.blueprints.todoapp.util.saveTaskBlocking
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import org.junit.After
+import org.junit.Before
+import org.junit.Ignore
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+@@ -60,7 +59,6 @@ import javax.inject.Inject
+ */
+@RunWith(AndroidJUnit4::class)
+@LargeTest
+@UninstallModules(TasksRepositoryModule::class)
+@HiltAndroidTest
+class AppNavigationTest {
+
+@@ -98,6 +96,7 @@ class AppNavigationTest {
+        IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
+    }
+
+    @Ignore("TODO: Investigate why it's failing")
+    @Test
+    fun drawerNavigationFromTasksToStatistics() {
+        // start up Tasks screen
+  9  ...est/java/com/example/android/architecture/blueprints/todoapp/DataBindingIdlingResource.kt
+@@ -101,12 +101,3 @@ fun DataBindingIdlingResource.monitorActivity(
+        this.activity = it
+    }
+}
+
+/**
+ * Sets the fragment from a [FragmentScenario] to be used from [DataBindingIdlingResource].
+ */
+fun DataBindingIdlingResource.monitorFragment(fragmentScenario: FragmentScenario<out Fragment>) {
+    fragmentScenario.onFragment {
+        this.activity = it.requireActivity()
+    }
+}
+  6  app/src/androidTest/java/com/example/android/architecture/blueprints/todoapp/HiltExt.kt
+@@ -22,7 +22,6 @@ import android.os.Bundle
+import androidx.annotation.StyleRes
+import androidx.core.util.Preconditions
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
+
+@@ -45,7 +44,10 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
+            ApplicationProvider.getApplicationContext(),
+            HiltTestActivity::class.java
+        )
+    ).putExtra(EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY, themeResId)
+    ).putExtra(
+        "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
+        themeResId
+    )
+
+    ActivityScenario.launch<HiltTestActivity>(startActivityIntent).onActivity { activity ->
+        val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
+  3  ...androidTest/java/com/example/android/architecture/blueprints/todoapp/TasksActivityTest.kt
+@@ -35,13 +35,11 @@ import androidx.test.filters.LargeTest
+import com.example.android.architecture.blueprints.todoapp.R.string
+import com.example.android.architecture.blueprints.todoapp.data.Task
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
+import com.example.android.architecture.blueprints.todoapp.di.TasksRepositoryModule
+import com.example.android.architecture.blueprints.todoapp.tasks.TasksActivity
+import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource
+import com.example.android.architecture.blueprints.todoapp.util.saveTaskBlocking
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.core.IsNot.not
+import org.junit.After
+@@ -59,7 +57,6 @@ import javax.inject.Inject
+ */
+@RunWith(AndroidJUnit4::class)
+@LargeTest
+@UninstallModules(TasksRepositoryModule::class)
+@HiltAndroidTest
+class TasksActivityTest {
+
+  3  ...om/example/android/architecture/blueprints/todoapp/addedittask/AddEditTaskFragmentTest.kt
+@@ -31,13 +31,11 @@ import androidx.test.filters.MediumTest
+import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.data.Result
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
+import com.example.android.architecture.blueprints.todoapp.di.TasksRepositoryModule
+import com.example.android.architecture.blueprints.todoapp.launchFragmentInHiltContainer
+import com.example.android.architecture.blueprints.todoapp.tasks.ADD_EDIT_RESULT_OK
+import com.example.android.architecture.blueprints.todoapp.util.getTasksBlocking
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert.assertEquals
+import org.junit.Before
+@@ -54,7 +52,6 @@ import javax.inject.Inject
+@RunWith(AndroidJUnit4::class)
+@MediumTest
+@ExperimentalCoroutinesApi
+@UninstallModules(TasksRepositoryModule::class)
+@HiltAndroidTest
+class AddEditTaskFragmentTest {
+
+  8  ...s/todoapp/di/TestTasksRepositoryModule.kt → ...s/todoapp/di/TestTasksRepositoryModule.kt
+@@ -22,7 +22,8 @@ import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepo
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
+import javax.inject.Singleton
+
+/**
+@@ -31,7 +32,10 @@ import javax.inject.Singleton
+ * Hilt will inject a [FakeRepository] instead of a [DefaultTasksRepository].
+ */
+@Module
+@InstallIn(ApplicationComponent::class)
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [TasksRepositoryModule::class]
+)
+abstract class TestTasksRepositoryModule {
+    @Singleton
+    @Binds
+  3  .../com/example/android/architecture/blueprints/todoapp/statistics/StatisticsFragmentTest.kt
+@@ -27,12 +27,10 @@ import androidx.test.filters.MediumTest
+import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.data.Task
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
+import com.example.android.architecture.blueprints.todoapp.di.TasksRepositoryModule
+import com.example.android.architecture.blueprints.todoapp.launchFragmentInHiltContainer
+import com.example.android.architecture.blueprints.todoapp.util.saveTaskBlocking
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Before
+import org.junit.Rule
+@@ -46,7 +44,6 @@ import javax.inject.Inject
+@RunWith(AndroidJUnit4::class)
+@MediumTest
+@ExperimentalCoroutinesApi
+@UninstallModules(TasksRepositoryModule::class)
+@HiltAndroidTest
+class StatisticsFragmentTest {
+
+  3  .../com/example/android/architecture/blueprints/todoapp/taskdetail/TaskDetailFragmentTest.kt
+@@ -26,12 +26,10 @@ import androidx.test.filters.MediumTest
+import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.data.Task
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
+import com.example.android.architecture.blueprints.todoapp.di.TasksRepositoryModule
+import com.example.android.architecture.blueprints.todoapp.launchFragmentInHiltContainer
+import com.example.android.architecture.blueprints.todoapp.util.saveTaskBlocking
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.hamcrest.core.IsNot.not
+import org.junit.Before
+@@ -46,7 +44,6 @@ import javax.inject.Inject
+@MediumTest
+@RunWith(AndroidJUnit4::class)
+@ExperimentalCoroutinesApi
+@UninstallModules(TasksRepositoryModule::class)
+@HiltAndroidTest
+class TaskDetailFragmentTest {
+
+  3  ...dTest/java/com/example/android/architecture/blueprints/todoapp/tasks/TasksFragmentTest.kt
+@@ -39,12 +39,10 @@ import androidx.test.filters.MediumTest
+import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.data.Task
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
+import com.example.android.architecture.blueprints.todoapp.di.TasksRepositoryModule
+import com.example.android.architecture.blueprints.todoapp.launchFragmentInHiltContainer
+import com.example.android.architecture.blueprints.todoapp.util.saveTaskBlocking
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matcher
+@@ -63,7 +61,6 @@ import javax.inject.Inject
+@RunWith(AndroidJUnit4::class)
+@MediumTest
+@ExperimentalCoroutinesApi
+@UninstallModules(TasksRepositoryModule::class)
+@HiltAndroidTest
+class TasksFragmentTest {
+
+  6  ...a/com/example/android/architecture/blueprints/todoapp/addedittask/AddEditTaskViewModel.kt
+@@ -16,7 +16,6 @@
+
+package com.example.android.architecture.blueprints.todoapp.addedittask
+
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+@@ -26,12 +25,15 @@ import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.data.Result.Success
+import com.example.android.architecture.blueprints.todoapp.data.Task
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+/**
+ * ViewModel for the Add/Edit screen.
+ */
+class AddEditTaskViewModel @ViewModelInject constructor(
+@HiltViewModel
+class AddEditTaskViewModel @Inject constructor(
+    private val tasksRepository: TasksRepository
+) : ViewModel() {
+
+  6  app/src/main/java/com/example/android/architecture/blueprints/todoapp/di/AppModule.kt
+@@ -27,8 +27,8 @@ import com.example.android.architecture.blueprints.todoapp.data.source.remote.Ta
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Qualifier
+@@ -42,7 +42,7 @@ import kotlin.annotation.AnnotationRetention.RUNTIME
+ * in Hilt's ApplicationComponent.
+ */
+@Module
+@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Qualifier
+@@ -91,7 +91,7 @@ object AppModule {
+ * The binding for TasksRepository is on its own module so that we can replace it easily in tests.
+ */
+@Module
+@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
+object TasksRepositoryModule {
+
+    @Singleton
+  6  ...ava/com/example/android/architecture/blueprints/todoapp/statistics/StatisticsViewModel.kt
+@@ -16,7 +16,6 @@
+
+package com.example.android.architecture.blueprints.todoapp.statistics
+
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+@@ -27,12 +26,15 @@ import com.example.android.architecture.blueprints.todoapp.data.Result.Error
+import com.example.android.architecture.blueprints.todoapp.data.Result.Success
+import com.example.android.architecture.blueprints.todoapp.data.Task
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+/**
+ * ViewModel for the statistics screen.
+ */
+class StatisticsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class StatisticsViewModel @Inject constructor(
+    private val tasksRepository: TasksRepository
+) : ViewModel() {
+
+  6  ...ava/com/example/android/architecture/blueprints/todoapp/taskdetail/TaskDetailViewModel.kt
+@@ -16,7 +16,6 @@
+package com.example.android.architecture.blueprints.todoapp.taskdetail
+
+import androidx.annotation.StringRes
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+@@ -29,12 +28,15 @@ import com.example.android.architecture.blueprints.todoapp.data.Result
+import com.example.android.architecture.blueprints.todoapp.data.Result.Success
+import com.example.android.architecture.blueprints.todoapp.data.Task
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+/**
+ * ViewModel for the Details screen.
+ */
+class TaskDetailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class TaskDetailViewModel @Inject constructor(
+    private val tasksRepository: TasksRepository
+) : ViewModel() {
+
+  11  ...src/main/java/com/example/android/architecture/blueprints/todoapp/tasks/TasksViewModel.kt
+@@ -17,8 +17,6 @@ package com.example.android.architecture.blueprints.todoapp.tasks
+
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+@@ -37,14 +35,17 @@ import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepo
+import com.example.android.architecture.blueprints.todoapp.tasks.TasksFilterType.ACTIVE_TASKS
+import com.example.android.architecture.blueprints.todoapp.tasks.TasksFilterType.ALL_TASKS
+import com.example.android.architecture.blueprints.todoapp.tasks.TasksFilterType.COMPLETED_TASKS
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+/**
+ * ViewModel for the task list screen.
+ */
+class TasksViewModel @ViewModelInject constructor(
+    private val tasksRepository: TasksRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+@HiltViewModel
+class TasksViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val tasksRepository: TasksRepository
+) : ViewModel() {
+
+    private val _forceUpdate = MutableLiveData<Boolean>(false)
+  2  ...test/java/com/example/android/architecture/blueprints/todoapp/tasks/TasksViewModelTest.kt
+@@ -63,7 +63,7 @@ class TasksViewModelTest {
+        val task3 = Task("Title3", "Description3", true)
+        tasksRepository.addTasks(task1, task2, task3)
+
+        tasksViewModel = TasksViewModel(tasksRepository, SavedStateHandle())
+        tasksViewModel = TasksViewModel(SavedStateHandle(), tasksRepository)
+    }
+
+    @Test
+  29  build.gradle
+@@ -1,15 +1,15 @@
+buildscript {
+    ext.kotlinVersion = '1.3.61'
+    ext.navigationVersion = '2.2.0-rc02'
+    ext.kotlinVersion = '1.4.21'
+    ext.navigationVersion = '2.2.0'
+    ext.ktlintVersion = '0.33.0'
+    ext.hiltVersion = "2.28-alpha"
+    ext.hiltVersion = "2.31-alpha"
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+@@ -48,30 +48,29 @@ ext {
+
+    // App dependencies
+    androidXVersion = '1.0.0'
+    androidXTestCoreVersion = '1.2.0'
+    androidXTestExtKotlinRunnerVersion = '1.1.1'
+    androidXTestCoreVersion = '1.3.0'
+    androidXTestExtKotlinRunnerVersion = '1.1.2'
+    androidXTestRulesVersion = '1.2.0'
+    androidXAnnotations = '1.1.0'
+    androidXLegacySupport = '1.0.0'
+    appCompatVersion = '1.1.0'
+    archLifecycleVersion = '2.2.0-rc02'
+    appCompatVersion = '1.2.0'
+    archLifecycleVersion = '2.2.0'
+    archTestingVersion = '2.1.0'
+    cardVersion = '1.0.0'
+    coroutinesVersion = '1.2.1'
+    coroutinesVersion = '1.4.2'
+    dexMakerVersion = '2.12.1'
+    espressoVersion = '3.2.0'
+    fragmentVersion = '1.2.0'
+    espressoVersion = '3.3.0'
+    fragmentVersion = '1.3.0-rc01'
+    fragmentKtxVersion = '1.2.0'
+    hamcrestVersion = '1.3'
+    hiltAndroidXVersion = '1.0.0-alpha01'
+    junitVersion = '4.12'
+    materialVersion = '1.0.0'
+    materialVersion = '1.2.1'
+    mockitoVersion = '2.19.0'
+    multiDexVersion = '2.0.1'
+    recyclerViewVersion = '1.1.0'
+    robolectricVersion = '4.3.1'
+    roomVersion = '2.2.2'
+    roomVersion = '2.2.6'
+    rulesVersion = '1.0.1'
+    timberVersion = '4.7.1'
+    truthVersion = '1.0'
+    truthVersion = '1.0.1'
+}
+ 4  gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,6 @@
+#Thu Apr 04 11:20:54 PDT 2019
+#Mon Jan 18 10:34:47 CET 2021
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
