@@ -31,6 +31,7 @@ import timber.log.Timber.DebugTree
  * Кроме того, настраивает древесину в конфигурации DEBUG Build.
  * Ознакомьтесь с документацией Timber'S для производственных установок.
  */
+// https://topjava.ru/blog/migratsiya-s-junit4-na-junit5
 @HiltAndroidApp
 class TodoApplication : Application() {
 
